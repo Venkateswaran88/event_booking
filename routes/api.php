@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\BookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::resource('events', EventController::class)->only([
+    'index',
+]);
+
+Route::get('/events/get-dates/{id}', [EventController::class, 'getEventWithAvailabeDates']);
+Route::get('/events/get-available-slots/{id}/{date}', [EventController::class, 'getAvailableSlotByDateAndEventId']);
+Route::get('/all-events', [EventController::class, 'getAllEvents']);
+
+Route::post('/book-slot', [BookingController::class, 'bookSlot']);
