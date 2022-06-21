@@ -14,8 +14,10 @@ class CreateEventIntervalsTable extends Migration
     public function up()
     {
         Schema::create('event_intervals', function (Blueprint $table) {
-            $table->integer('event_id')->unsignedBigInteger();
-            $table->integer('interval_id')->unsignedBigInteger();
+            $table->bigInteger('event_id')->unsigned();
+            $table->bigInteger('interval_id')->unsigned();
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+            $table->foreign('interval_id')->references('id')->on('intervals')->onDelete('cascade');
         });
     }
 

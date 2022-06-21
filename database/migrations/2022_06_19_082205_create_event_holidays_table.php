@@ -14,8 +14,10 @@ class CreateEventHolidaysTable extends Migration
     public function up()
     {
         Schema::create('event_holidays', function (Blueprint $table) {
-            $table->integer('event_id')->unsignedBigInteger();
-            $table->integer('holiday_id')->unsignedBigInteger();
+            $table->bigInteger('event_id')->unsigned();
+            $table->bigInteger('holiday_id')->unsigned();
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+            $table->foreign('holiday_id')->references('id')->on('holidays')->onDelete('cascade');
         });
     }
 
