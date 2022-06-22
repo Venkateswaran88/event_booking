@@ -34,9 +34,12 @@ class Event extends Model
         $startDate = Carbon::today();
         $endDate = Carbon::today()->addDays($this->no_of_days_to_list);
         $dates = [];
+        $timeSlotArr = $this->timeSlots()->pluck('day_of_week')->toArray();
 
         for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay()) {
-            $dates[] = $date->format('Y-m-d');
+            if (in_array($date->dayOfWeek, $timeSlotArr)) {
+                $dates[] = $date->format('Y-m-d');
+            }
         }
 
         $holidayList = $this->holidays()->get()->pluck('date')->toArray();
